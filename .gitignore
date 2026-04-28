@@ -52,6 +52,9 @@ htmlcov/
 
 # Sensitive
 .env
+.env.*
+.env~
+*.env
 *.key
 scripts/traffic-monitor/wrangler.toml
 scripts/outreach/
