@@ -222,9 +222,6 @@ export default function Archive({ emailCount, senderCount, countryCount, countri
               {copy.clearFilters}
             </button>
           )}
-          <a href="/api/export?format=csv" className="download-btn" download>
-            {copy.downloadCsv}
-          </a>
         </div>
 
         <div className="table-wrap">

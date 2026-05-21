@@ -1,6 +1,5 @@
 import { STORIES } from "../lib/stories";
 import { PEOPLE } from "../lib/people";
-import { getDb } from "../lib/db";
 import {
   BASE,
   getLocalizedPath,
@@ -9,7 +8,7 @@ import {
   hasFrenchStory,
 } from "../lib/i18n";
 
-function generateSitemap(emailIds) {
+function generateSitemap() {
   const now = new Date().toISOString().split("T")[0];
 
   const staticPages = [
@@ -36,13 +35,7 @@ function generateSitemap(emailIds) {
       : []),
   ]);
 
-  const emailPages = emailIds.map((id) => ({
-    path: `/emails/${encodeURIComponent(id)}`,
-    priority: "0.5",
-    locales: ["en", "fr"],
-  }));
-
-  const allPages = [...staticPages, ...storyPages, ...personPages, ...emailPages].flatMap((page) =>
+  const allPages = [...staticPages, ...storyPages, ...personPages].flatMap((page) =>
     page.locales.map((locale) => ({
       path: getLocalizedPath(page.path, locale),
       priority: page.priority,
@@ -65,15 +58,9 @@ ${allPages
 }
 
 export async function getServerSideProps({ res }) {
-  const db = getDb();
-  const rows = db
-    .prepare("SELECT id FROM emails WHERE COALESCE(is_promotional, 0) = 0")
-    .all();
-  const emailIds = rows.map((r) => r.id);
-
   res.setHeader("Content-Type", "text/xml");
   res.setHeader("Cache-Control", "public, max-age=86400");
-  res.write(generateSitemap(emailIds));
+  res.write(generateSitemap());
   res.end();
   return { props: {} };
 }

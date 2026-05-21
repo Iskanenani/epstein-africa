@@ -2,6 +2,18 @@ import { getDb } from "../../lib/db";
 
 const LIMIT_MAX = 100;
 const LIMIT_DEFAULT = 25;
+const QUERY_MAX_LENGTH = 200;
+
+function boundedPositiveInt(value, fallback, max) {
+  const parsed = parseInt(Array.isArray(value) ? value[0] : value, 10);
+  if (!Number.isFinite(parsed) || parsed < 1) return fallback;
+  return Math.min(parsed, max);
+}
+
+function boundedString(value, maxLength) {
+  const raw = Array.isArray(value) ? value[0] : value;
+  return String(raw || "").trim().slice(0, maxLength);
+}
 
 export default function handler(req, res) {
   if (req.method !== "GET") {
@@ -10,11 +22,11 @@ export default function handler(req, res) {
 
   const db = getDb();
 
-  const page = Math.max(1, parseInt(req.query.page) || 1);
-  const limit = Math.min(LIMIT_MAX, parseInt(req.query.limit) || LIMIT_DEFAULT);
+  const page = boundedPositiveInt(req.query.page, 1, Number.MAX_SAFE_INTEGER);
+  const limit = boundedPositiveInt(req.query.limit, LIMIT_DEFAULT, LIMIT_MAX);
   const offset = (page - 1) * limit;
-  const q = (req.query.q || "").trim();
-  const country = (req.query.country || "").trim();
+  const q = boundedString(req.query.q, QUERY_MAX_LENGTH);
+  const country = boundedString(req.query.country, 80);
 
   let total, emails;
 

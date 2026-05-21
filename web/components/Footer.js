@@ -54,11 +54,6 @@ export default function Footer({ locale = "en" }) {
                 {copy.dataGraph}
               </Link>
             </li>
-            <li>
-              <a href="/api/export?format=csv" download>
-                {copy.dataCsv}
-              </a>
-            </li>
           </ul>
         </div>
         <div className="mag-footer-col">

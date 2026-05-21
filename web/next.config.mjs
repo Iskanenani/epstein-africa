@@ -5,11 +5,9 @@ const nextConfig = {
     defaultLocale: "en",
     localeDetection: false,
   },
-  experimental: {
-    outputFileTracingIncludes: {
-      "/api/**": ["./data/**"],
-      "/emails/**": ["./data/**"],
-    },
+  outputFileTracingIncludes: {
+    "/api/**": ["./data/**"],
+    "/emails/**": ["./data/**"],
   },
   webpack(config) {
     config.externals = [...(config.externals ?? []), "better-sqlite3"];

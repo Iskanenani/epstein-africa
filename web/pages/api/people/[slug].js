@@ -5,6 +5,12 @@ import { getLocalizedPerson, normalizeLocale } from "../../../lib/i18n";
 const LIMIT_MAX = 100;
 const LIMIT_DEFAULT = 25;
 
+function boundedPositiveInt(value, fallback, max) {
+  const parsed = parseInt(Array.isArray(value) ? value[0] : value, 10);
+  if (!Number.isFinite(parsed) || parsed < 1) return fallback;
+  return Math.min(parsed, max);
+}
+
 export default function handler(req, res) {
   if (req.method !== "GET") {
     return res.status(405).json({ error: "Method not allowed" });
@@ -21,8 +27,8 @@ export default function handler(req, res) {
 
   const db = getDb();
 
-  const page = Math.max(1, parseInt(req.query.page) || 1);
-  const limit = Math.min(LIMIT_MAX, parseInt(req.query.limit) || LIMIT_DEFAULT);
+  const page = boundedPositiveInt(req.query.page, 1, Number.MAX_SAFE_INTEGER);
+  const limit = boundedPositiveInt(req.query.limit, LIMIT_DEFAULT, LIMIT_MAX);
   const offset = (page - 1) * limit;
 
   // Build OR conditions for all search terms
