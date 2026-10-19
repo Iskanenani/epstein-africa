@@ -13,6 +13,7 @@ import {
   hasFrenchStaticPage,
   normalizeLocale,
 } from "../lib/i18n";
+import { hreflangLinks } from "../lib/hreflang";
 
 export async function getStaticProps({ locale }) {
   const normalizedLocale = normalizeLocale(locale);
@@ -305,12 +306,7 @@ export default function GraphPage({ precomputedGraph, locale, frAvailable }) {
         <meta property="og:type" content="website" />
         <meta property="og:locale" content={getOgLocale(locale)} />
         <meta property="og:image" content={`${BASE}/api/og?title=${encodeURIComponent(copy.ogTitle)}&subtitle=${encodeURIComponent(copy.ogSubtitle)}`} />
-        {frAvailable && locale === "en" && (
-          <link rel="alternate" hrefLang="fr" href={getCanonicalUrl("/graph", "fr")} />
-        )}
-        {frAvailable && locale === "fr" && (
-          <link rel="alternate" hrefLang="en" href={getCanonicalUrl("/graph", "en")} />
-        )}
+        {frAvailable && hreflangLinks("/graph")}
       </Head>
 
       <Script

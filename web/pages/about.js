@@ -10,6 +10,7 @@ import {
   hasFrenchStaticPage,
   normalizeLocale,
 } from "../lib/i18n";
+import { hreflangLinks } from "../lib/hreflang";
 
 export async function getStaticProps({ locale }) {
   const normalizedLocale = normalizeLocale(locale);
@@ -64,12 +65,7 @@ export default function About({ emailCount, countryCount, locale, frAvailable })
         <meta property="og:type" content="website" />
         <meta property="og:locale" content={getOgLocale(locale)} />
         <meta property="og:image" content={`${BASE}/api/og?title=${encodeURIComponent(copy.heading)}&subtitle=${encodeURIComponent(copy.ogSubtitle)}`} />
-        {frAvailable && locale === "en" && (
-          <link rel="alternate" hrefLang="fr" href={getCanonicalUrl("/about", "fr")} />
-        )}
-        {frAvailable && locale === "fr" && (
-          <link rel="alternate" hrefLang="en" href={getCanonicalUrl("/about", "en")} />
-        )}
+        {frAvailable && hreflangLinks("/about")}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

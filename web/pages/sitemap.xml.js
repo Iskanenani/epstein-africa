@@ -9,8 +9,8 @@ import {
 } from "../lib/i18n";
 
 function generateSitemap() {
-  const now = new Date().toISOString().split("T")[0];
-
+  // No <lastmod>: pages carry no real publish/update date, and stamping
+  // every URL with today's date teaches Google to ignore lastmod entirely.
   const staticPages = [
     { path: "/", priority: "1.0", locales: ["en", ...(hasFrenchStaticPage("home") ? ["fr"] : [])] },
     { path: "/archive", priority: "0.9", locales: ["en", ...(hasFrenchStaticPage("archive") ? ["fr"] : [])] },
@@ -49,7 +49,6 @@ ${allPages
     (p) =>
       `  <url>
     <loc>${BASE}${p.path}</loc>
-    <lastmod>${now}</lastmod>
     <priority>${p.priority}</priority>
   </url>`
   )

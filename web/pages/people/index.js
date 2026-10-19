@@ -15,6 +15,7 @@ import {
   normalizeLocale,
   PEOPLE_COPY,
 } from "../../lib/i18n";
+import { hreflangLinks } from "../../lib/hreflang";
 
 export async function getStaticProps({ locale }) {
   const normalizedLocale = normalizeLocale(locale);
@@ -72,12 +73,7 @@ export default function PeopleIndex({ people, locale, frAvailable }) {
         <meta property="og:type" content="website" />
         <meta property="og:locale" content={getOgLocale(locale)} />
         <meta property="og:image" content={`${BASE}/api/og?title=${encodeURIComponent(t.indexHeading)}&subtitle=${encodeURIComponent(`${people.length} ${t.ogSubtitle}`)}&type=person`} />
-        {frAvailable && locale === "en" && (
-          <link rel="alternate" hrefLang="fr" href={getCanonicalUrl("/people", "fr")} />
-        )}
-        {frAvailable && locale === "fr" && (
-          <link rel="alternate" hrefLang="en" href={getCanonicalUrl("/people", "en")} />
-        )}
+        {frAvailable && hreflangLinks("/people")}
       </Head>
 
       <div className="container">

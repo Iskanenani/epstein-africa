@@ -20,6 +20,7 @@ import {
   PEOPLE_COPY,
   resolveBackHref,
 } from "../../lib/i18n";
+import { hreflangLinks } from "../../lib/hreflang";
 
 const LIMIT = 25;
 
@@ -186,12 +187,7 @@ export default function PersonProfile({ person: ssrPerson, emails: ssrEmails, to
             <meta property="og:type" content="profile" />
             <meta property="og:locale" content={getOgLocale(locale)} />
             <meta property="og:image" content={`${BASE}/api/og?title=${encodeURIComponent(person.name)}&subtitle=${encodeURIComponent(person.title)}&type=person`} />
-            {frAvailable && locale === "en" && (
-              <link rel="alternate" hrefLang="fr" href={getCanonicalUrl(pageUrl, "fr")} />
-            )}
-            {frAvailable && locale === "fr" && (
-              <link rel="alternate" hrefLang="en" href={getCanonicalUrl(pageUrl, "en")} />
-            )}
+            {frAvailable && hreflangLinks(pageUrl)}
             <script
               type="application/ld+json"
               dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

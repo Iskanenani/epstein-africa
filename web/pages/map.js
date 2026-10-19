@@ -14,6 +14,7 @@ import {
   hasFrenchStaticPage,
   normalizeLocale,
 } from "../lib/i18n";
+import { hreflangLinks } from "../lib/hreflang";
 
 export function getStaticProps({ locale }) {
   const normalizedLocale = normalizeLocale(locale);
@@ -324,12 +325,7 @@ export default function MapPage({ countryData, countryCount, locale, frAvailable
           content={`${BASE}/api/og?title=${encodeURIComponent(copy.title)}`}
         />
         <meta property="og:type" content="website" />
-        {frAvailable && locale === "en" && (
-          <link rel="alternate" hrefLang="fr" href={getCanonicalUrl("/map", "fr")} />
-        )}
-        {frAvailable && locale === "fr" && (
-          <link rel="alternate" hrefLang="en" href={getCanonicalUrl("/map", "en")} />
-        )}
+        {frAvailable && hreflangLinks("/map")}
       </Head>
 
       <Script

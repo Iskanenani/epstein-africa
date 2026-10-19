@@ -15,6 +15,7 @@ import {
   normalizeLocale,
   STORY_COPY,
 } from "../../lib/i18n";
+import { hreflangLinks } from "../../lib/hreflang";
 
 export async function getStaticProps({ locale }) {
   const normalizedLocale = normalizeLocale(locale);
@@ -66,12 +67,7 @@ export default function StoriesIndex({ stories, allCountries, longreads, locale,
         <meta property="og:type" content="website" />
         <meta property="og:locale" content={getOgLocale(locale)} />
         <meta property="og:image" content={`${BASE}/api/og?title=${encodeURIComponent(t.indexHeading)}&subtitle=${encodeURIComponent(t.ogSubtitle)}`} />
-        {frAvailable && locale === "en" && (
-          <link rel="alternate" hrefLang="fr" href={getCanonicalUrl("/stories", "fr")} />
-        )}
-        {frAvailable && locale === "fr" && (
-          <link rel="alternate" hrefLang="en" href={getCanonicalUrl("/stories", "en")} />
-        )}
+        {frAvailable && hreflangLinks("/stories")}
       </Head>
 
       <div className="container">

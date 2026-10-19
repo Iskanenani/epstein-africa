@@ -17,6 +17,7 @@ import {
   hasFrenchStaticPage,
   normalizeLocale,
 } from "../lib/i18n";
+import { hreflangLinks } from "../lib/hreflang";
 
 export async function getStaticProps({ locale }) {
   const normalizedLocale = normalizeLocale(locale);
@@ -144,12 +145,7 @@ export default function Archive({ emailCount, senderCount, countryCount, countri
           property="og:image"
           content={`${BASE}/api/og?title=${encodeURIComponent(copy.heading)}&subtitle=${encodeURIComponent(`${emailCount.toLocaleString()} ${copy.ogSubtitle}`)}`}
         />
-        {frAvailable && locale === "en" && (
-          <link rel="alternate" hrefLang="fr" href={getCanonicalUrl("/archive", "fr")} />
-        )}
-        {frAvailable && locale === "fr" && (
-          <link rel="alternate" hrefLang="en" href={getCanonicalUrl("/archive", "en")} />
-        )}
+        {frAvailable && hreflangLinks("/archive")}
       </Head>
 
       <header className="site-masthead">

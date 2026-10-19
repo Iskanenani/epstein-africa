@@ -16,6 +16,7 @@ import {
   hasFrenchStory,
   normalizeLocale,
 } from "../lib/i18n";
+import { hreflangLinks } from "../lib/hreflang";
 
 const LONGREAD_IMG_CLASS = {
   "sultan-africa-ports-decade": "mag-lr-card-img--topo",
@@ -286,12 +287,7 @@ export default function Home({
           property="og:image"
           content={`${BASE}/api/og?title=${encodeURIComponent(copy.headline)}&subtitle=${encodeURIComponent(copy.ogSubtitle)}`}
         />
-        {frAvailable && locale === "en" && (
-          <link rel="alternate" hrefLang="fr" href={getCanonicalUrl("/", "fr")} />
-        )}
-        {frAvailable && locale === "fr" && (
-          <link rel="alternate" hrefLang="en" href={getCanonicalUrl("/", "en")} />
-        )}
+        {frAvailable && hreflangLinks("/")}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

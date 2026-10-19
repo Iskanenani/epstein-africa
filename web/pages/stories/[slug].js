@@ -21,6 +21,7 @@ import {
   resolveBackHref,
   STORY_COPY,
 } from "../../lib/i18n";
+import { hreflangLinks } from "../../lib/hreflang";
 
 function linkifyCitations(text, locale, backPath) {
   const parts = [];
@@ -150,12 +151,7 @@ export default function StoryPage({ story, emails, kind, parents, children, loca
         <meta property="og:type" content="article" />
         <meta property="og:locale" content={getOgLocale(locale)} />
         <meta property="og:image" content={`${BASE}/api/og?title=${encodeURIComponent(story.title)}&subtitle=${encodeURIComponent(localizedCountries.join(", "))}`} />
-        {frAvailable && locale === "en" && (
-          <link rel="alternate" hrefLang="fr" href={getCanonicalUrl(pageUrl, "fr")} />
-        )}
-        {frAvailable && locale === "fr" && (
-          <link rel="alternate" hrefLang="en" href={getCanonicalUrl(pageUrl, "en")} />
-        )}
+        {frAvailable && hreflangLinks(pageUrl)}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

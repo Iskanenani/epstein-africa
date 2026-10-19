@@ -17,6 +17,7 @@ import {
   normalizeLocale,
   resolveBackHref,
 } from "../../lib/i18n";
+import { hreflangLinks } from "../../lib/hreflang";
 
 function parseParticipants(raw) {
   if (!raw) return [];
@@ -148,12 +149,7 @@ export default function EmailDetail({ ssrEmail, senderProfileSlug, siblingChoice
             content={`${BASE}/api/og?title=${encodeURIComponent(email?.subject || copy.titleFallback)}&subtitle=${encodeURIComponent(description)}`}
           />
         )}
-        {!isChooser && locale === "en" && (
-          <link rel="alternate" hrefLang="fr" href={getCanonicalUrl(pageUrl, "fr")} />
-        )}
-        {!isChooser && locale === "fr" && (
-          <link rel="alternate" hrefLang="en" href={getCanonicalUrl(pageUrl, "en")} />
-        )}
+        {!isChooser && hreflangLinks(pageUrl)}
         {isChooser && <meta name="robots" content="noindex" />}
       </Head>
 
