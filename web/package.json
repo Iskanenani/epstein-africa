@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@vercel/og": "^0.11.1",
-    "better-sqlite3": "^9.4.3",
+    "better-sqlite3": "^12.11.1",
     "next": "15.5.18",
     "react": "^18",
     "react-dom": "^18"
@@ -24,7 +24,7 @@
     "postcss": "8.5.10"
   },
   "engines": {
-    "node": "20.x"
+    "node": "24.x"
   },
   "devDependencies": {
     "@types/better-sqlite3": "^7.6.10",
